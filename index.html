@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Red Neuronal Netflix</title>
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+        "
+      >
+        <h1 style="margin: 0">🎬 Red Neuronal Netflix</h1>
+        <a
+          href="https://www.youtube.com/@aprendamoscodigo25"
+          target="_blank"
+          style="text-decoration: none"
+        >
+          <img
+            src="images/aprendamoscodigo.png"
+            alt="Aprendamos Código"
+            style="height: 150px; width: auto; transition: transform 0.3s ease"
+            onmouseover="this.style.transform='scale(1.1)'"
+            onmouseout="this.style.transform='scale(1)'"
+          />
+        </a>
+      </div>
+      <p class="subtitle">Predicción: ¿El usuario verá la película completa?</p>
+
+      <!-- Layout principal con red neuronal y controles -->
+      <div class="main-layout">
+        <!-- Sección izquierda: Información de capas -->
+        <div class="left-panel">
+          <div class="layer-info-card">
+            <div class="card-header">
+              <span class="icon">📊</span>
+              <h3>Entradas (Features)</h3>
+            </div>
+            <ul class="feature-list">
+              <li>
+                <strong>Género favorito:</strong> 0.8 (Género favorito (0.8))
+              </li>
+              <li><strong>Rating película:</strong> 0.9 (4.5/5 estrellas)</li>
+              <li><strong>Duración:</strong> 0.6 (132 minutos)</li>
+              <li><strong>Hora del día:</strong> 0.7 (19:00 hrs)</li>
+              <li><strong>Día semana:</strong> 0.9 (Sábado)</li>
+            </ul>
+          </div>
+
+          <div class="layer-info-card">
+            <div class="card-header">
+              <span class="icon">🧠</span>
+              <h3>Nodos: Cada nodo es una neurona</h3>
+            </div>
+            <div class="layer-desc">
+              <p>
+                <strong>Capa 1:</strong> Detecta patrones básicos (preferencias
+                + contexto)
+              </p>
+              <p>
+                <strong>Capa 2:</strong> Combina patrones complejos
+                (comportamiento de visualización)
+              </p>
+            </div>
+          </div>
+
+          <div class="layer-info-card">
+            <div class="card-header">
+              <span class="icon">🎯</span>
+              <h3>Salida: Genera el resultado final de la red</h3>
+            </div>
+            <div class="layer-desc">
+              <p><strong>Probabilidad:</strong> ¿Verá película completa?</p>
+              <p><strong>Rango:</strong> 0.0 (No verá) - 1.0 (Verá completa)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección central: Red neuronal -->
+        <div class="center-panel">
+          <div class="network-container" id="networkContainer">
+            <!-- La red se genera dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Sección derecha: Controles interactivos -->
+        <div class="right-panel">
+          <div class="controls-card">
+            <div class="card-header">
+              <span class="icon">🎛️</span>
+              <h3>Controles Interactivos</h3>
+            </div>
+
+            <div class="compact-controls">
+              <div class="control-item">
+                <label>Género Favorito (0-1):</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="genero"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="0.8"
+                    oninput="updateInput('genero', this.value)"
+                  />
+                  <span class="value-badge" id="genero-value">0.8</span>
+                </div>
+                <small>0=No le gusta, 1=Le encanta</small>
+              </div>
+
+              <div class="control-item">
+                <label>Rating Película (0-1):</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="rating"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="0.9"
+                    oninput="updateInput('rating', this.value)"
+                  />
+                  <span class="value-badge" id="rating-value">0.9</span>
+                </div>
+                <small>0=Muy malo, 1=Excelente</small>
+              </div>
+
+              <div class="control-item">
+                <label>Duración (0-1):</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="duracion"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="0.6"
+                    oninput="updateInput('duracion', this.value)"
+                  />
+                  <span class="value-badge" id="duracion-value">0.6</span>
+                </div>
+                <small>0=Muy corta, 1=Muy larga</small>
+              </div>
+
+              <div class="control-item">
+                <label>Hora del Día (0-1):</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="hora"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="0.7"
+                    oninput="updateInput('hora', this.value)"
+                  />
+                  <span class="value-badge" id="hora-value">0.7</span>
+                </div>
+                <small>0=Madrugada, 1=Noche</small>
+              </div>
+
+              <div class="control-item">
+                <label>Día Semana (0-1):</label>
+                <div class="slider-container">
+                  <input
+                    type="range"
+                    id="dia"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="0.9"
+                    oninput="updateInput('dia', this.value)"
+                  />
+                  <span class="value-badge" id="dia-value">0.9</span>
+                </div>
+                <small>0=Lunes, 1=Fin de semana</small>
+              </div>
+            </div>
+
+            <div class="validation-messages" id="validationMessages"></div>
+
+            <div class="action-buttons">
+              <button class="btn-primary" onclick="simulateForwardPass()">
+                🚀 Simular Predicción
+              </button>
+              <button class="btn-secondary" onclick="resetNetwork()">
+                🔄 Reiniciar
+              </button>
+              <button
+                class="btn-download"
+                onclick="downloadPDF()"
+                id="downloadBtn"
+                style="display: none"
+              >
+                📄 Descargar PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="predictionResult"
+        class="prediction-result"
+        style="display: none"
+      >
+        <div id="resultText"></div>
+      </div>
+
+      <!-- Fórmula matemática de la red neuronal -->
+      <div class="formula-section">
+        <div class="formula-header">
+          <span class="formula-icon">📐</span>
+          <h3>Fórmula Matemática de la Red Neuronal</h3>
+        </div>
+
+        <div class="formula-container">
+          <div class="formula-step">
+            <h4>1. Capa de Entrada (Input Layer)</h4>
+            <div class="formula">
+              <strong>X = [x₁, x₂, x₃, x₄, x₅]</strong>
+            </div>
+            <p>Donde: x₁=Género, x₂=Rating, x₃=Duración, x₄=Hora, x₅=Día</p>
+          </div>
+
+          <div class="formula-step">
+            <h4>2. Primera Capa Oculta (Hidden Layer 1)</h4>
+            <div class="formula">
+              <strong>H₁ⱼ = σ(∑ᵢ₌₁⁵ wᵢⱼ⁽¹⁾ · xᵢ + b₁ⱼ)</strong>
+            </div>
+            <p>Para j = 1, 2, 3, 4 neuronas en la primera capa oculta</p>
+          </div>
+
+          <div class="formula-step">
+            <h4>3. Segunda Capa Oculta (Hidden Layer 2)</h4>
+            <div class="formula">
+              <strong>H₂ₖ = σ(∑ⱼ₌₁⁴ wⱼₖ⁽²⁾ · H₁ⱼ + b₂ₖ)</strong>
+            </div>
+            <p>Para k = 1, 2, 3 neuronas en la segunda capa oculta</p>
+          </div>
+
+          <div class="formula-step">
+            <h4>4. Capa de Salida (Output Layer)</h4>
+            <div class="formula">
+              <strong>y = σ(∑ₖ₌₁³ wₖ⁽³⁾ · H₂ₖ + b₃)</strong>
+            </div>
+            <p>Probabilidad final de ver la película completa (0 ≤ y ≤ 1)</p>
+          </div>
+
+          <div class="formula-step activation">
+            <h4>5. Función de Activación (Sigmoid)</h4>
+            <div class="formula">
+              <strong>σ(z) = 1 / (1 + e⁻ᶻ)</strong>
+            </div>
+            <p>Convierte cualquier valor real en un rango [0, 1]</p>
+          </div>
+        </div>
+
+        <div class="simplified-formula">
+          <h4>📊 Fórmula Simplificada para esta Demo:</h4>
+          <div class="formula">
+            <strong
+              >Predicción = σ(0.25·Género + 0.30·Rating - 0.15·Duración +
+              0.20·Hora + 0.20·Día + 0.2)</strong
+            >
+          </div>
+          <p>
+            <em>Los pesos están simplificados para propósitos educativos</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h3>🔍 ¿Cómo funciona?</h3>
+        <p>
+          <strong>1. Entradas:</strong> Datos del usuario y película (género
+          preferido, rating, duración, contexto temporal)
+        </p>
+        <p>
+          <strong>2. Pesos:</strong> Valores aprendidos que determinan la
+          importancia de cada conexión
+        </p>
+        <p>
+          <strong>3. Capas Ocultas:</strong> Procesan y combinan información
+          para encontrar patrones complejos
+        </p>
+        <p>
+          <strong>4. Salida:</strong> Probabilidad final de que el usuario vea
+          la película completa
+        </p>
+      </div>
+    </div>
+
+    <!-- Librerías para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
